@@ -390,7 +390,7 @@ Sheet.prototype.inputNote = function(cx, cy, e, touch) {
 
     this.mouseDown = true;
 
-    if (!this.mouse_clicked && e.button === 0 || !touch) {
+    if (!this.mouse_clicked && e.button === 0 || touch) {
 
         if (this.Tracks[this.track_over].Measures[this.measure_over] != undefined && 
             this.Tracks[this.track_over].Measures[this.measure_over].lines[this.line_over] != undefined &&
@@ -419,10 +419,17 @@ Sheet.prototype.inputNote = function(cx, cy, e, touch) {
 
     if (!this.dragging && e.button === 1 || !this.dragging && touch) {
 
-        console.log("DRAGON");
+        if (touch) {
+            if (!this.notate) {
+                this.dragging = true;
+                this.dragPos = {x: x, y: y};
+            }
+        } else {
+            this.dragging = true;
+            this.dragPos = {x: x, y: y};
+        }
 
-        this.dragging = true;
-        this.dragPos = {x: x, y: y};
+        
 
     }
 
