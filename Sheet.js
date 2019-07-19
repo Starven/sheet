@@ -378,7 +378,7 @@ Sheet.prototype.mouseMove = function(cx, cy) {
 
 }
 
-Sheet.prototype.inputNote = function(cx, cy, e) {
+Sheet.prototype.inputNote = function(cx, cy, e, touch) {
 
     let rect = this.canvas.getBoundingClientRect();
 
@@ -390,7 +390,7 @@ Sheet.prototype.inputNote = function(cx, cy, e) {
 
     this.mouseDown = true;
 
-    if (!this.mouse_clicked && e.button === 0) {
+    if (!this.mouse_clicked && e.button === 0 || !touch) {
 
         if (this.Tracks[this.track_over].Measures[this.measure_over] != undefined && 
             this.Tracks[this.track_over].Measures[this.measure_over].lines[this.line_over] != undefined &&
@@ -417,7 +417,9 @@ Sheet.prototype.inputNote = function(cx, cy, e) {
 
     }
 
-    if (!this.dragging && e.button === 1) {
+    if (!this.dragging && e.button === 1 || !this.dragging && touch) {
+
+        console.log("DRAGON");
 
         this.dragging = true;
         this.dragPos = {x: x, y: y};

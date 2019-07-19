@@ -95,10 +95,34 @@ canvas.addEventListener("mousedown", function(e) {
 
     e.preventDefault();
 
-    sheets[activeSheet].inputNote(e.clientX, e.clientY, e);
+    sheets[activeSheet].inputNote(e.clientX, e.clientY, e, false);
 })
 
 canvas.addEventListener("mouseup", function(e) {
+    sheets[activeSheet].mouseUp();
+})
+
+canvas.addEventListener("touchmove", function(e) {
+    
+    let touch = e.touches[0];
+
+    console.log("ayybb");
+
+    sheets[activeSheet].mouseMove(touch.pageX, touch.pageY);
+})
+
+canvas.addEventListener("touchstart", function(e) {
+    e.preventDefault();
+
+    let touch = e.touches[0];
+
+    sheets[activeSheet].inputNote(touch.pageX, touch.pageY, e, true);
+})
+
+canvas.addEventListener("touchend", function(e) {
+
+    let touch = e.touches[0];
+
     sheets[activeSheet].mouseUp();
 })
 
