@@ -1,0 +1,19 @@
+{
+    "short_name": "Sheet",
+    "name": "Sheet",
+    "icons": [
+      {
+        "src": "/Resources/gearicon.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/Resources/gearicon.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "start_url": "/index.html",
+    "display": "fullscreen"
+
+  }
