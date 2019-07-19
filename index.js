@@ -364,4 +364,3 @@ function removeSheet(s) {
     } 
 }
 
-document.body.requestFullscreen();

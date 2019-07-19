@@ -159,7 +159,9 @@
     visibility: hidden;
 }
 
-html, body {
+
+html, 
+body {
     font-family: 'Quicksand', sans-serif;
     top: 0px;
     left: 0px;
@@ -169,7 +171,12 @@ html, body {
     overflow: hidden;
     width: 100%;
     position: fixed;
+        
 }
+
+
+
+
 
 .sidebar {
     position: relative;
