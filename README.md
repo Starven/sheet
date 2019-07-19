@@ -4,10 +4,12 @@ A Work in Progress Browser-based notation app.
 
 https://stevenpstar.github.io/sheet/
 
-![User Interface](https://i.imgur.com/3hmroGT.png)
+![User Interface](https://stevenpstar.github.io/sheet/Screenshots/screenshot1.png)
 
 
 ## /Features
+
+(Some of these have been recently broken but will be fixed soon)
 
 - Add/Delete notes (semi-quaver to semi-breve), including dotted notes.
 - Multiple tracks and endless measures
@@ -19,6 +21,8 @@ https://stevenpstar.github.io/sheet/
 
 ## /Recent Changes
 
+- Reworked UI
+- Reworked the "Sheet" itself to be an object, broke a lot of things in the process!
 - Changed/Fixed Sharps and Flats.
 - Changed functionality of adding notes to be on release. This is much better for touch-screens as they don't have a preview-on-hover.
 - Added several UI changes/buttons (add measure, delete selection).
