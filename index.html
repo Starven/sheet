@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand&display=swap">
+    </head>
+    <body>
+        <wrapper class="wrapper" width="500px" height="500px">
+            <div class="toolbar">
+                <nav class="top-bar">
+                        <div class="filebuttons" id="file">FILE</div>
+                        <div class="filebuttons filebutton-selected" id="edit">EDIT</div>
+                </nav>
+                <nav class="tab-area hidden" id="file-tab">
+                    <div class="tab-area-wrapper">
+                            <div class="toolbar_button">
+                                        
+                                </div>
+                            <div class="toolbar_button" id="new">
+                                <img src="Resources/newicon.png" alt="New File">
+                            </div>
+                    </div>
+                    
+                </nav>
+
+                <nav class="tab-area " id="edit-tab">
+                        <div class="tab-area-wrapper">
+                                <div class="toolbar_button">
+                                        
+                                </div>
+                                <div class="toolbar_button toolbar_selected" id="pointer">
+                                    <img src="Resources/pointericon.png" alt="New File">
+                                </div>
+                                <div class="toolbar_button" id="note">
+                                        <img src="Resources/noteicon.png" alt="New File">
+                                </div>
+                                <div class="toolbar_button">
+                                        
+                                </div>
+                                <div class="toolbar_button" id="add_measure">
+                                        <img src="Resources/addmeasureicon.png" alt="New File">
+                                </div>
+                                <div class="toolbar_button" id="remove_measure">
+                                        <img src="Resources/removemeasureicon.png" alt="New File">
+                                </div>
+                                <div class="toolbar_button">
+                                        
+                                </div>
+                                <div class="toolbar_button" id="semiquaver_button">
+                                        <img src="Resources/semiquaver.png" alt="New File">
+                                </div>
+                                <div class="toolbar_button" id="quaver_button">
+                                        <img src="Resources/quavericon.png" alt="New File">
+                                </div>
+                                <div class="toolbar_button toolbar_selected" id="crotchet_button">
+                                        <img src="Resources/crotcheticon.png" alt="New File">
+                                </div>
+                                <div class="toolbar_button" id="minim_button">
+                                        <img src="Resources/minumicon.png" alt="New File">
+                                </div>
+                                <div class="toolbar_button" id="semibreve_button">
+                                        <img src="Resources/semibreveicon.png" alt="New File">
+                                </div>
+                                <div class="toolbar_button">
+                                        
+                                </div>
+                                <div class="toolbar_button" id="play_button">
+                                        <img src="Resources/playicondark.png" alt="New File">
+                                </div>
+                                
+                        </div>
+                        
+                    </nav>
+                    
+
+            </div>
+            <div class="content-wrapper">
+                <div class="sidebar" id="sidebar">
+                    <div class="sidebar-wrapper">
+                        <div class="sidebar-content hidden" id="measure-content">
+
+                            <div class="sidebar-header"><h2>CLEFS</h2></div>
+
+                        </div>
+
+                        <div class="sidebar-content" id="sheet-content">
+
+                                <h3>Title</h3>
+                                <input class="sidebar-input" id= "sidebar-title" type="text" placeholder = "Title"></input>
+                                <h3>Composer</h3>
+                                <input class="sidebar-input" id = "sidebar-composer" type="text" placeholder = "Composer"></input>
+    
+                            </div>
+                        
+                        <div class="sidebar-side">
+
+                            <div class="sidebar-button" id="gear_button">
+                                <img src="Resources/gearicon.png">
+                            </div>
+                            
+
+                        </div>
+
+                    </div>
+                    
+                </div>
+                <div class="canvas-wrapper" id="canvas-wrapper">
+                    <div class="sheet-tab-wrapper" id="sheet-tabs">
+
+                        <div class="sheet-tab-wrapper-column">
+                                <div class="sheet-tab sheet-tab-selected" id="tab-0"><span id="tab-span-0">Sheet 1</span><button class="close-tab" id="ct-0">X</button></div>
+                        </div>
+
+                    </div>
+                    <canvas id="canvas">Unfortunately this doesn't work on your browser, please use or upgrade Chrome.</canvas>
+                </div>
+            </div>
+            
+        </wrapper>
+
+        <script src="FrequencyList.js"></script>
+        <script src="AudioPlayer.js"></script>
+        <script src="ClefRenderer.js"></script>
+        <script src="NoteRenderer.js"></script>
+        <script src="Note.js"></script>
+        <Script src="Line.js"></Script>
+        <script src="Track.js"></script>
+        <script src="UI.js"></script>
+        <script src="CanvasUI.js"></script>
+        <script src="Mutator.js"></script>
+        <script src="Measure.js"></script>
+        <script src="Sheet.js"></script>
+        <script src="index.js"></script>
+    </body>
+</html>
