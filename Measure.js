@@ -1,4 +1,4 @@
-function Measure (measureNo, timeSig, keySig, clef, width, height, position, showClef, showKey, showTime) {
+function Measure (measureNo, timeSig, keySig, clef, width, height, position, showClef, showKey, showTime, imageHandler) {
 
     this.measureNumber = measureNo;
     this.timeSignature = timeSig; // {beats: x, va: y}
@@ -16,6 +16,8 @@ function Measure (measureNo, timeSig, keySig, clef, width, height, position, sho
 
     this.showSections = false;
     this.measureSelected = false;
+
+    this.iHandler = new ImageHandler();
 
 
     this.xOffset = 0;
@@ -124,7 +126,7 @@ function Measure (measureNo, timeSig, keySig, clef, width, height, position, sho
     }
 
 
-    this.previewMeasure = new PreviewMeasure(measureNo, timeSig, keySig, clef, this.width, this.position, this.sections, this.lines, this.xOffset, this.marginLeft);
+    this.previewMeasure = new PreviewMeasure(measureNo, timeSig, keySig, clef, this.width, this.position, this.sections, this.lines, this.xOffset, this.marginLeft, this.iHandler);
     this.mutator = new Mutator(this);
 
 }
@@ -242,13 +244,13 @@ Measure.prototype.render = function(context, canvas, camera, notate) {
              
                 for (var n=0;n<this.sections[s].notes.length;n++) {
 
-                      renderNote(this.sections[s].notes[n], this.sections[s].notes[n].duration, this.sections[s].notes[n].position, context, canvas, camera, this.sections[s].notes[n].selected, this.sections[s].notes[n].line, false);
+                      renderNote(this.sections[s].notes[n], this.sections[s].notes[n].duration, this.sections[s].notes[n].position, context, canvas, camera, this.sections[s].notes[n].selected, this.sections[s].notes[n].line, false, this.iHandler, this.scale);
                 }
 
               renderStem(this.sections[s], context, canvas, camera, false);
    
                 if (this.sections[s].notes.length == 0) {
-                   renderNote(this.sections[s].note, this.sections[s].value, this.sections[s].notePosition, context, canvas, camera, false, 0, false);
+                   renderNote(this.sections[s].note, this.sections[s].value, this.sections[s].notePosition, context, canvas, camera, false, 0, false, this.iHandler, this.scale);
                 }
                // 
             }
@@ -501,7 +503,7 @@ section.prototype.removeNote = function(n) {
 
 //Preview Measure ay bb;
 
-function PreviewMeasure(measureNo, timeSig, keySig, clef, width, position, sections, lines, xOffset, marginLeft) {
+function PreviewMeasure(measureNo, timeSig, keySig, clef, width, position, sections, lines, xOffset, marginLeft, imageHandler) {
     this.measureNumber = measureNo;
     this.timeSignature = timeSig;
     this.keySignature = keySig;
@@ -513,6 +515,7 @@ function PreviewMeasure(measureNo, timeSig, keySig, clef, width, position, secti
     this.xOffset = xOffset;
     this.marginLeft = marginLeft;
     this.mutator = new Mutator(this);
+    this.iHandler = imageHandler;
 }
 
 PreviewMeasure.prototype.setSections = function(sections) {
@@ -536,14 +539,14 @@ PreviewMeasure.prototype.render = function(context, canvas, camera) {
 
     for (var s=0;s<this.sections.length;s++) {
         for (var n=0;n<this.sections[s].notes.length;n++) {
-            renderNote(this.sections[s].notes[n], this.sections[s].notes[n].duration, this.sections[s].notes[n].position, context, canvas, camera, this.sections[s].notes[n].selected, this.sections[s].notes[n].line, true);
+            renderNote(this.sections[s].notes[n], this.sections[s].notes[n].duration, this.sections[s].notes[n].position, context, canvas, camera, this.sections[s].notes[n].selected, this.sections[s].notes[n].line, true, this.iHandler, this.scale);
         }
 
         if (this.sections[s].notes.length == 0) {
-            renderNote(this.sections[s].note, this.sections[s].value, this.sections[s].notePosition, context, canvas, camera, false, 0, true);
+            renderNote(this.sections[s].note, this.sections[s].value, this.sections[s].notePosition, context, canvas, camera, false, 0, true, this.iHandler, this.scale);
          }
 
-       renderStem(this.sections[s], context, canvas, camera, true);
+       renderStem(this.sections[s], context, canvas, camera, true, this.scale);
     }
 
     

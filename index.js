@@ -25,6 +25,7 @@ var quaver_button = document.getElementById("quaver_button");
 var crotchet_button = document.getElementById("crotchet_button");
 var minim_button = document.getElementById("minim_button");
 var semibreve_button = document.getElementById("semibreve_button");
+var delete_button = document.getElementById("delete_button");
 
 var gear_button = document.getElementById("gear_button");
 var sidebar = document.getElementById("sidebar");
@@ -82,6 +83,29 @@ window.addEventListener("resize", function() {
 document.addEventListener("keydown", function(e) {
     console.log(e.keyCode);
     sheets[activeSheet].keyInput(e);
+
+    if (e.keyCode == 67) {
+
+        //creating new objects to compare
+
+        let compare = [{tracks: []}, 
+                        {tracks: []}];
+        let trcks = [];
+
+        compare[0].tracks = sheets[0].Tracks;
+        compare[1].tracks = sheets[1].Tracks;
+
+        console.log(compare[0].tracks);
+        console.log(compare[1].tracks);
+
+        if (compare[0].tracks == compare[1].tracks) {
+            console.log("equal");
+        } else {
+            console.log("woops");
+        }
+
+        
+    }
 })
 
 
@@ -109,7 +133,7 @@ canvas.addEventListener("touchmove", function(e) {
     console.log("ayybb");
 
     sheets[activeSheet].mouseMove(touch.pageX, touch.pageY);
-})
+}, {passive: true})
 
 canvas.addEventListener("touchstart", function(e) {
     e.preventDefault();
@@ -117,14 +141,14 @@ canvas.addEventListener("touchstart", function(e) {
     let touch = e.touches[0];
 
     sheets[activeSheet].inputNote(touch.pageX, touch.pageY, e, true);
-})
+}, {passive: true})
 
 canvas.addEventListener("touchend", function(e) {
 
     let touch = e.touches[0];
 
     sheets[activeSheet].mouseUp();
-})
+}, {passive: true})
 
 
 //UI Event Listeners
@@ -211,6 +235,10 @@ semibreve_button.addEventListener("click", function() {
 
 gear_button.addEventListener("click", function() {
     toggleSidebar();
+})
+
+delete_button.addEventListener("click", function() {
+    sheets[activeSheet].deleteSelected();
 })
 
 sidebar_title.addEventListener("input", function() {

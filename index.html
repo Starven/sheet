@@ -5,7 +5,7 @@
         <meta name="mobile-web-app-capable" content="yes">
 
         <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand&display=swap">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     </head>
     <body>
         <wrapper class="wrapper" width="500px" height="500px">
@@ -13,6 +13,7 @@
                 <nav class="top-bar">
                         <div class="filebuttons" id="file">FILE</div>
                         <div class="filebuttons filebutton-selected" id="edit">EDIT</div>
+                        <div class="filebuttons" id="tracks">TRACKS</div>
                 </nav>
                 <nav class="tab-area hidden" id="file-tab">
                     <div class="tab-area-wrapper">
@@ -69,6 +70,12 @@
                                 </div>
                                 <div class="toolbar_button" id="play_button">
                                         <img src="Resources/playicondark.png" alt="New File">
+                                </div>
+                                <div class="toolbar_button">
+                                        
+                                </div>
+                                <div class="toolbar_button" id="delete_button">
+                                        <img src="Resources/deleteicon.png" alt="New File">
                                 </div>
                                 
                         </div>
@@ -132,6 +139,7 @@
         <script src="CanvasUI.js"></script>
         <script src="Mutator.js"></script>
         <script src="Measure.js"></script>
+        <script src="ImageHandler.js"></script>
         <script src="Sheet.js"></script>
         <script src="index.js"></script>
     </body>

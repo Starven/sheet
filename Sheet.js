@@ -41,6 +41,7 @@ function Sheet(canvas, context, title, composer) {
     this.audioPlayer.setVolume(-0.9);
 
     this.measuresSelected = [];
+    this.selected_notes = [];
 
     this.uiColour = "rgb(130, 179, 216)";
     this.highlightColour = "rgb(239, 151, 43)";
@@ -52,16 +53,19 @@ function Sheet(canvas, context, title, composer) {
 
     this.canvasUI = new CanvasUI(this.renderCanvasInterface);
 
+    this.iHandler = new ImageHandler();
+
 }
 
 Sheet.prototype.newFile = function() {
 
     this.Tracks = [];
     this.Tracks.push(new Track(0,
-        [new Measure(0, {beats: 4, value: 4}, "Am", "treble", (this.measureLength * this.scale), (this.measureLength * this.scale) / (this.measureLength / 100), {x: 50, y: 100}, true, false, true)]));
+        [new Measure(0, {beats: 4, value: 4}, "Am", "treble", (this.measureLength * this.scale), (this.measureLength * this.scale) / (this.measureLength / 100), {x: 50, y: 100}, true, false, true)], 
+        "piano", this.iHandler));
 
-    this.Tracks.push(new Track(1, 
-        [new Measure(1, {beats: 4, value: 4}, "Am", "bass", (this.measureLength * this.scale), (this.measureLength * this.scale) / (this.measureLength / 100), {x: 50, y: 400}, true, false, true)]));
+   // this.Tracks.push(new Track(1, 
+      //  [new Measure(1, {beats: 4, value: 4}, "Am", "bass", (this.measureLength * this.scale), (this.measureLength * this.scale) / (this.measureLength / 100), {x: 50, y: 400}, true, false, true)], "piano"));
 }
 
 Sheet.prototype.addMeasures = function() {
@@ -77,7 +81,7 @@ Sheet.prototype.addMeasures = function() {
                 value: this.Tracks[t].Measures[this.Tracks[t].Measures.length-1].timeSignature.value}, 
                 "Am", clef, (this.measureLength * this.scale), (this.measureLength * this.scale) / (this.measureLength / 100), 
                 {x: this.Tracks[t].Measures[this.Tracks[t].Measures.length-1].position.x + offset + this.Tracks[t].Measures[this.Tracks[t].Measures.length-1].marginLeft, 
-                    y: this.Tracks[t].Measures[this.Tracks[t].Measures.length-1].position.y}, false, false, false);
+                    y: this.Tracks[t].Measures[this.Tracks[t].Measures.length-1].position.y}, false, false, false, this.iHandler);
     
 
         this.Tracks[t].Measures.push(new_measure);
@@ -96,11 +100,11 @@ Sheet.prototype.renderMeasures = function() {
     this.context.textAlign = "left";
 
     this.context.fillStyle = "rgb(0, 0, 0)";
-    this.context.font = "48px Quicksand";
+    this.context.font = "48px Montserrat";
     this.context.fillText(this.title, this.camera.x + this.measureLength / 2, this.camera.y - 50);
 
     this.context.fillStyle = "rgb(0, 0, 0)";
-    this.context.font = "16px Quicksand";
+    this.context.font = "16px Montserrat";
     this.context.fillText("Composer: " + this.composer, this.camera.x + this.measureLength / 2, this.camera.y - 20);
 
 
@@ -206,21 +210,26 @@ Sheet.prototype.playback = function(sections, index, context, gainNode, destinat
 
 Sheet.prototype.deleteSelected = function() {
 
-    //really need to re-do this mess
+    this.selected_notes.sort(function(a, b) {
+        return b.note - a.note;
+    });
 
-    for (var t=0;t<this.Tracks.length;t++) {
-        for (var m=0;m<this.Tracks[t].Measures.length;m++) {
-            for (var s=0;s<this.Tracks[t].Measures[m].sections.length;s++) {
-                for (var n=0;n<this.Tracks[t].Measures[m].sections[s].notes.length;n++) {
-                    if (this.Tracks[t].Measures[m].sections[s].notes[n].selected) {
-                      this.Tracks[t].Measures[m].sections[s].removeNote(n);
-                        this.Tracks[t].Measures[m].previewMeasure.setSections(Measures[m].sections);
-                        this.renderMeasures();
-                    }
-                }
-            }
-        }
+    for (let n=0;n<this.selected_notes.length;n++) {
+
+        let sn = this.selected_notes[n];
+
+        
+        this.Tracks[sn.track].Measures[sn.measure].sections[sn.section].removeNote(sn.note);
+        this.renderMeasures();
+
     }
+
+    for (let n=0;n<this.selected_notes.length;n++) {
+        let sn = this.selected_notes[n];
+        this.Tracks[sn.track].Measures[sn.measure].previewMeasure.setSections(this.Tracks[sn.track].Measures[sn.measure].sections);
+    }
+
+    this.selected_notes = [];
 
 }
 
@@ -271,6 +280,7 @@ Sheet.prototype.keyInput = function(e) {
         this.Tracks[this.track_over].Measures[this.measure_over].showSections = !this.Tracks[this.track_over].Measures[this.measure_over].showSections;
 
      }
+
 
 }
 
@@ -411,7 +421,16 @@ Sheet.prototype.inputNote = function(cx, cy, e, touch) {
 
                 this.renderMeasures();
 
-            } 
+            } else {
+                for (n=0;n<this.Tracks[this.track_over].Measures[this.measure_over].sections[this.section_over].notes.length;n++) {
+                    if (this.Tracks[this.track_over].Measures[this.measure_over].sections[this.section_over].notes[n].mouseOver(x, y)) {
+                        this.Tracks[this.track_over].Measures[this.measure_over].sections[this.section_over].notes[n].selected = !this.Tracks[this.track_over].Measures[this.measure_over].sections[this.section_over].notes[n].selected;
+
+                        this.selectNote(this.track_over, this.measure_over, this.section_over, n);
+
+                    }
+                }
+            }
 
         }
 
@@ -439,6 +458,30 @@ Sheet.prototype.mouseUp = function() {
 
     if (this.dragging) {
         this.dragging = !this.dragging;
+    }
+
+}
+
+Sheet.prototype.selectNote = function(track, measure, section, note) {
+
+    let note_in_array = false;
+
+    for (let n=0;n<this.selected_notes.length;n++) {
+
+        if (this.selected_notes[n].track == track &&
+            this.selected_notes[n].measure == measure &&
+            this.selected_notes[n].section == section &&
+            this.selected_notes[n].note == note) {
+                note_in_array = true;
+                console.log("IN ARRAY");
+
+            this.selected_notes.splice(n, 1);
+        }
+
+    }
+
+    if (!note_in_array) {
+        this.selected_notes.push({track: track, measure: measure, section: section, note: note});
     }
 
 }

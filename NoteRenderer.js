@@ -1,4 +1,4 @@
-function renderNote(note, value, position, context, canvas, camera, selected, line, preview) {
+function renderNote(note, value, position, context, canvas, camera, selected, line, preview, iHandler, scale) {
     //console.log("Note: " + note + " Position: " + position.x + ", " + position.y);
    // console.log("Selected: " + selected);
 
@@ -6,7 +6,7 @@ function renderNote(note, value, position, context, canvas, camera, selected, li
 
 
     if (note === "rest") {
-        renderRest(value, position, context, canvas, camera, preview);
+        renderRest(value, position, context, canvas, camera, preview, iHandler, scale);
     } else {
        // console.log("Hitting it");
        // console.log(note);
@@ -100,7 +100,9 @@ function renderNote(note, value, position, context, canvas, camera, selected, li
     }
 }
 
-function renderRest(value, position, context, canvas, camera, preview) {
+function renderRest(value, position, context, canvas, camera, preview, iHandler) {
+
+    
 
     if (preview) {
         context.fillStyle = "rgb(239, 151, 43)";
@@ -114,7 +116,8 @@ function renderRest(value, position, context, canvas, camera, preview) {
     } else if (value === 8) {
         context.fillRect(camera.x + position.x, camera.y + position.y-10, 20, 10);
     } else if (value === 4) {
-        context.fillRect(camera.x + position.x, camera.y + position.y-20, 5, 40);
+       // context.fillRect(camera.x + position.x, camera.y + position.y-20, 5, 40);
+       context.drawImage(iHandler.crotchet_rest, camera.x + position.x, camera.y + position.y- 27, 22, 54)
     } else if (value === 2) {
         context.fillRect(camera.x + position.x, camera.y + position.y-10, 5, 20);
     } else if (value === 1) {
@@ -132,6 +135,7 @@ function renderStems(note, value, position, context, canvas, camera, selected, p
     }
     
     context.beginPath();
+    context.lineWidth = 10;
     context.moveTo(camera.x + position.x - 6, camera.y + position.y);
     context.lineTo(camera.x + position.x - 6, camera.y + position.y + 70);
     if (value === 2){
@@ -143,7 +147,7 @@ function renderStems(note, value, position, context, canvas, camera, selected, p
 
 }
 
-function renderStem(section, context, canvas, camera, preview) {
+function renderStem(section, context, canvas, camera, preview, scale) {
 
     
 
@@ -155,6 +159,7 @@ function renderStem(section, context, canvas, camera, preview) {
         } else {
             context.strokeStyle = "rgb(0,0,0)";
         }
+        context.lineWidth = 2;
         context.beginPath();
         if (section.stemDirection === "down") {
             context.moveTo(camera.x + section.notePosition.x - 8, camera.y + section.stemYPositions.y1);
@@ -191,6 +196,7 @@ function renderStem(section, context, canvas, camera, preview) {
         }
     context.stroke();
     context.closePath();
+   // context.lineWidth = 1;
     }
 }
 

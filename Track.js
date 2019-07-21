@@ -1,6 +1,8 @@
-function Track(id, measures_one) {
+function Track(id, measures_one, instrument, imageHandler) {
     this.id = id;
     this.Measures = measures_one.slice();
+    this.instrument = instrument;
+    this.iHandler = imageHandler;
 }
 
 Track.prototype.getMeasures = function() {
